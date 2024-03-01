@@ -1,6 +1,6 @@
 export interface toDo {
-    id: number;
+    id: number | string ;
     text: string;
-    done:boolean;
+    done?:boolean;
   }
   

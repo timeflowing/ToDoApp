@@ -17,11 +17,12 @@ const todoSlice = createSlice({
       const { todos } = state
       const { payload } = action
       for (let i in todos) {
-
+        const c = Number(i)
+        
         if (todos[i].id === payload) {
-          todos.splice(Number(i), 1);
-        }
+          todos.splice(c, 1);
         return void todos
+        }
       }
     },
     updateToDo(state, action) {
@@ -42,7 +43,6 @@ const todoSlice = createSlice({
       for (let i in todos) {
         let c = Number(i)
         if (todos[i].id === payload.id) {
-          console.log(todos[i]);
           todos[i].done = true
 
         }

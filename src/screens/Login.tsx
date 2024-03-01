@@ -1,25 +1,25 @@
-import { Pressable, StyleSheet, Text, TextInput, View, SafeAreaView } from 'react-native'
+import { Pressable, StyleSheet, Text, TextInput, View, SafeAreaView,Image } from 'react-native'
 import React, { useState } from 'react'
 import { global } from '../utilities/styles'
 import { color } from '../utilities/colors'
 import { windowHeight, windowWidth } from '../utilities/dimensions'
 import { logIn } from '../redux/user'
 import { useDispatch } from 'react-redux'
+import { LoginProps } from '../interface/login'
 
-const Login = ({ navigation }) => {
-  const [name, setName] = useState<string>()
-  const [pass, setPass] = useState<string>()
+
+const Login:React.FC<LoginProps> = ({ navigation }) => {
+  const [name, setName] = useState<string>('')
+  const [pass, setPass] = useState<string>('')
+  const [secureText,setSecureText] = useState<boolean>(true)
   const dispatch = useDispatch()
+  
+  //incorrect credentials: displaying message(FlashMessage) that credentials are incorrect / implement robust authentication system with detailed error handling for various auth failures
+  //incorrect format: display message that format is incorrect / Use regex to validate the email format and provide real-time feedback to the user before submission
   const check = async () => {
-
-
-
     if (name == 'admin' && pass == 'admin') {
       dispatch(logIn(''))
-
-
     }
-
   }
 
   return (
@@ -28,7 +28,7 @@ const Login = ({ navigation }) => {
       <Text style={styles.pressText}>Login</Text>
       <View>
         <TextInput placeholder='name' style={styles.input} onChangeText={setName} autoCapitalize='none' />
-        <TextInput placeholder='password' onChangeText={setPass} secureTextEntry={true} style={styles.input} />
+        <View><TextInput placeholder='password' onChangeText={setPass} secureTextEntry={secureText} style={styles.input} ></TextInput><Pressable onPress={()=>{setSecureText(!secureText)}}><Image source={require('../assets/icons/eye.png')} style={{height:25,width:25,position:'absolute',right:0,bottom:7}}/></Pressable></View>
       </View>
       <Pressable onPress={check} style={styles.press}><Text style={styles.pressText}>Log in</Text></Pressable>
 

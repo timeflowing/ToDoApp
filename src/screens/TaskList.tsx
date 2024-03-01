@@ -1,5 +1,5 @@
 import { FlatList, Pressable, SafeAreaView, StyleSheet, Text, View, Image, Modal } from 'react-native'
-import React, { useI, useState } from 'react'
+import React, { useId, useState } from 'react'
 import { global } from '../utilities/styles'
 import { logOut } from '../redux/user'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,27 +7,31 @@ import { color } from '../utilities/colors'
 import { windowHeight, windowWidth } from '../utilities/dimensions'
 import { checkIt, deleteTodo, updateToDo } from '../redux/todos'
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import { TextInput, TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import { TextInput} from 'react-native-gesture-handler'
+import { LoginProps } from '../interface/login'
+import { toDo } from '../interface/todo'
+import { RootState } from '../redux/store'
 
-const TaskList = ({ navigation }) => {
-  const [modalVisible, setModalVisible] = useState(false);
+//large number of tasks: Implement pagination or infinite scrolling to load tasks in chunks rather than all at once. Using FlashList and FlashImage for caching
+//deleting or editing the wrong task: Implement an undo feature for delete actions or a confirmation dialog before deleting or editing a task.
+const TaskList:React.FC<LoginProps> = ({ navigation }) => {
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
   const dispatch = useDispatch()
-  const { todos } = useSelector(state => state.todos)
+  const { todos } = useSelector((state:RootState)=> state.todos)
 
-  const [newValue, setNewValue] = useState()
   const edit = () => {
     dispatch(updateToDo(editable))
     setModalVisible(false)
   }
-  const [editable, setEditable] = useState({
+  const [editable, setEditable] = useState<toDo>({
     id: '',
-    text: ''
+    text: '',
+    done:false
   })
-  const renderItem = ({ item }) => {
+  const renderItem = ({ item}: { item: toDo;index:number}) => {
 
     return (
       <View style={styles.item}>
-
         <BouncyCheckbox
           size={25}
           fillColor={color.green}
@@ -70,7 +74,7 @@ const TaskList = ({ navigation }) => {
     <SafeAreaView style={[global.container, { justifyContent: 'space-between' }]}>
       <Text style={{ margin: 20, fontSize: 28 }}>Task List</Text>
 
-      <FlatList data={todos} renderItem={renderItem} style={{}} keyExtractor={(item) => item.id} ListEmptyComponent={() => <View style={{ marginTop: windowHeight / 5 }}><Text style={{ fontSize: 18,textAlign:'center',paddingHorizontal:20 }}>A spotless list!</Text><Text style={{fontSize: 18,paddingTop:5}}>Dare to fill it with your amazing tasks.</Text></View>} />
+      <FlatList data={todos} renderItem={renderItem} style={{}} keyExtractor={(item) => String(item.id)} ListEmptyComponent={() => <View style={{ marginTop: windowHeight / 5 }}><Text style={{ fontSize: 18,textAlign:'center',paddingHorizontal:20 }}>A spotless list!</Text><Text style={{fontSize: 18,paddingTop:5}}>Dare to fill it with your amazing tasks.</Text></View>} />
       <Pressable onPress={() => navigation.navigate('AddTask')} style={{ backgroundColor: color.green, margin: 20, marginBottom: 60, borderRadius: 30, alignItems: 'center', width: windowWidth / 2 }}><Text style={{ fontSize: 22, padding: 10, textAlign: 'center' }}>Add Task +</Text></Pressable>
       <Pressable style={{ marginBottom: 20 }} onPress={() => dispatch(logOut(''))}><Text style={{ fontSize: 15 }}><Image source={require('../assets/icons/logout.png')} style={{ height: 20, width: 20 }} />  Logout  </Text></Pressable>
 

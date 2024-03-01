@@ -6,7 +6,7 @@ import { Root } from './navigation/Root';
 import store, { persistor } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <ReduxProvider store={store}>
       <PersistGate persistor={persistor}>

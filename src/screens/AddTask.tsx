@@ -8,15 +8,18 @@ import { useDispatch } from 'react-redux';
 import { addTodo } from '../redux/todos';
 import { toDo } from '../interface/todo';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LoginProps } from '../interface/login';
 
-const AddTask = ({ navigation }) => {
+const AddTask:React.FC<LoginProps> = ({ navigation }) => {
   const dispatch = useDispatch();
-  const [task, setTask] = useState({
+  const [task, setTask] = useState<toDo>({
     id: new Date().getTime() + Math.random(),
     text: '',
     done: false
   });
 
+  //Empty task: validate input field
+  //Duplicate task: implement logic to check for duplicates and alert user before saving or prevent it before saving
   const addTask = () => {
     if (task?.text.length > 2) {
       dispatch(addTodo(task));
@@ -29,7 +32,6 @@ const AddTask = ({ navigation }) => {
       <View style={{ position: 'absolute', top: 50, left: 20, flexDirection: 'row', width: windowWidth }}>
         <Pressable style={{}} onPress={() => navigation.goBack()}>
           <Image source={require('../assets/icons/back.png')} style={{ width: 30, height: 30 }} />
-
         </Pressable>
 
       </View>
