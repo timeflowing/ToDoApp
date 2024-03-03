@@ -25,12 +25,12 @@ Clone this project to your local environment using the following command:
 
 ```
 git clone https://github.com/timeflowing/ToDoApp.git
-cd ToDoApp
 ```
 # Install Dependencies
 Navigate to the project directory and install the necessary packages:
 
 ```
+cd ToDoApp
 npm install
 cd ios
 pod install
@@ -61,8 +61,8 @@ Should you encounter any issues, please do not hesitate to contact me via email 
 # Considerations and Enhancements
 
 - Authentication: Implemented with static credentials for demonstration purposes. For production, integrating with a secure backend service is recommended.
-- Error Handling: Basic implementations are in place. A comprehensive approach would include more user feedback and error logging.
-- UI/UX: Focused on functionality for this assignment. Future iterations could include enhanced visual design and user experience improvements.
+- Error Handling: A comprehensive approach would include more user feedback and error logging.
+- UI/UX: Focused on functionality for this assignment. Future iterations could include enhanced visual design and user experience improvement.
 
 # General Edge Cases
 - Network Issues on Data Sync: If app syncs data with a backend, handling network issues is important.
